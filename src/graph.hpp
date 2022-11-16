@@ -13,24 +13,18 @@ enum Sigma {
   ONE = 1,
 };
 
-enum RunningState {
-  Running = 0,
-  Terminated = 1,
-};
-
 class Graph {
 public:
   using State = int;
-  using States = unordered_set<int>;
-  using Transitions = unordered_map<State, pair<States, States>>;
+  using Transitions = unordered_map<State, pair<State, State>>;
   using Labels = unordered_map<State, string>;
 
 private:
   Transitions transitions;
   Labels labels;
-  unordered_set<State> initial_states;
+  State initial_state;
   unordered_set<State> states;
-  unordered_set<State> current_states;
+  State current_state;
 
 public:
   Graph(vector<string> lines);
@@ -38,8 +32,7 @@ public:
 
 private:
   void load_config(vector<string> lines);
-  States split_destinations(string line);
-  RunningState move_next(Sigma sigma);
+  void move_next(Sigma sigma);
 };
 
 #endif

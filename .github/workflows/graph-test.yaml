@@ -32,7 +32,7 @@ jobs:
       run: cmake -B ${{github.workspace}}/bin -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
-      run: cd ${{github.workspace}}/bin && cmake --build ${{github.workspace}} --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/bin --config ${{env.BUILD_TYPE}}
 
     - name: Run
-      run: ${{github.workspace}}/bin/graph_test
+      run: ${{github.workspace}}/bin/bin/graph_test

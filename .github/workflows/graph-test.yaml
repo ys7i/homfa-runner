@@ -35,4 +35,4 @@ jobs:
       run: cmake --build ${{github.workspace}}/bin --config ${{env.BUILD_TYPE}}
 
     - name: Run
-      run: ls bin && ./bin/graph_test
+      run: ${{github.workspace}}/bin/graph_test

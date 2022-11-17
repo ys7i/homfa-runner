@@ -10,7 +10,7 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build:
+  run-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,4 +35,4 @@ jobs:
       run: cmake --build ${{github.workspace}}/bin --config ${{env.BUILD_TYPE}}
 
     - name: Run
-      run: ls && ./bin/graph_test
+      run: ls bin && ./bin/graph_test

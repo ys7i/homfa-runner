@@ -2,6 +2,7 @@
 cli11/2.3.1
 spdlog/1.11.0
 fmt/9.1.0
+gtest/1.12.1
 
 [generators]
 cmake

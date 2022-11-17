@@ -1,5 +1,6 @@
 .vscode
 bin/
+lib/
 build/
 modules/*
 CMakeFiles/

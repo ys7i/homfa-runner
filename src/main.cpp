@@ -26,6 +26,16 @@ int main(int argc, char *argv[]) {
   auto graph_config = read_file(graph_file);
   auto sigma_vector = split_to_zero_one(input.at(0));
   auto graph = new Graph(graph_config);
-  graph->process_offline(sigma_vector);
+  for (auto it = sigma_vector.begin(); it != sigma_vector.end(); ++it) {
+    graph->move_next(*it);
+    Graph::State current_state = graph->get_current_state();
+    string label = graph->output_label(current_state);
+    spdlog::info("state: " + to_string(current_state));
+    if (label != "") {
+      spdlog::info("label: " + label);
+    } else {
+      spdlog::info("label: nothing continue");
+    }
+  }
   return 0;
 }

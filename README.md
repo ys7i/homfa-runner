@@ -5,7 +5,6 @@ Reading [this site](https://docs.conan.io/en/latest/installation.html), and inst
 
 ## install modules
 ```sh
-$ mkdir modules
 $ conan install . --install-folder modules
 ```
 

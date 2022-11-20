@@ -3,8 +3,10 @@
 
 #include "graph.hpp"
 #include "spdlog/spdlog.h"
+#include <fstream>
 #include <iostream>
 #include <string>
+
 std::vector<std::string> read_file(const std::string file_name) {
   std::ifstream ifs(file_name);
   std::string line;

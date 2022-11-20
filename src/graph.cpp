@@ -38,22 +38,19 @@ void Graph::load_config(vector<string> lines) {
   }
 }
 
-void Graph::process_offline(vector<Sigma> input) {
-  for (auto it = input.begin(); it != input.end(); ++it) {
-    this->move_next(*it);
-  }
-};
-
 void Graph::move_next(Sigma sigma) {
   spdlog::info("read:" + to_string(int(sigma)));
   auto next_state = sigma == Sigma::ZERO ? transitions.at(current_state).first
                                          : transitions.at(current_state).second;
-
-  if (labels.count(next_state)) {
-    spdlog::info("output - state:" + to_string(next_state) + " - " +
-                 labels.at(next_state));
-  } else {
-    spdlog::info("continue");
-  }
   current_state = next_state;
 }
+
+string Graph::output_label(Graph::State st) {
+  if (labels.count(st)) {
+    return labels.at(st);
+  } else {
+    return "";
+  }
+}
+
+Graph::State Graph::get_current_state() { return current_state; }

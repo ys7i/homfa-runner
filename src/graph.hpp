@@ -28,11 +28,13 @@ private:
 
 public:
   Graph(vector<string> lines);
-  void process_offline(vector<Sigma> input);
+  // void process_offline(vector<Sigma> input);
+  void move_next(Sigma sigma);
+  State get_current_state();
+  string output_label(State st);
 
 private:
   void load_config(vector<string> lines);
-  void move_next(Sigma sigma);
 };
 
 #endif

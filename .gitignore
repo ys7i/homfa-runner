@@ -1,5 +1,6 @@
 .vscode
 bin/
+lib/
 build/
 modules/*
 CMakeFiles/
@@ -8,3 +9,4 @@ CMakeCache.txt
 Makefile
 conan.lock
 graph_info.json
+*.cmake

@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.13)
 project(homfa-runner)
 
-add_definitions("-std=c++14")
+SET(DENABLE_SPQLIOS_AVX, "off")
+SET(DENABLE_SPQLIOS_FMA, "off")
+
+# add_definitions("-std=c++14")
 include(${CMAKE_BINARY_DIR}/bin/conanbuildinfo.cmake)
-message((${CMAKE_BINARY_DIR}))
 conan_basic_setup()
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(bin/tfhe/src)
 
 # include(${CMAKE_SOURCE_DIR}/modules/conanbuildinfo.cmake)
 

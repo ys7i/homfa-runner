@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(homfa-runner)
 
 add_definitions("-std=c++14")
-include(${CMAKE_BINARY_DIR}/modules/conanbuildinfo.cmake)
+include(${CMAKE_BINARY_DIR}/bin/conanbuildinfo.cmake)
 message((${CMAKE_BINARY_DIR}))
 conan_basic_setup()
 

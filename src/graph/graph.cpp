@@ -25,7 +25,6 @@ void Graph::load_config(vector<string> lines) {
     Graph::State state = stoi(match[2].str());
     if (match[1].str() == ">") {
       initial_state = state;
-      current_state = state;
     }
     states.insert(state);
     if (match[3].str() != "") {
@@ -38,13 +37,6 @@ void Graph::load_config(vector<string> lines) {
   }
 }
 
-void Graph::move_next(Sigma sigma) {
-  spdlog::info("read:" + to_string(int(sigma)));
-  auto next_state = sigma == Sigma::ZERO ? transitions.at(current_state).first
-                                         : transitions.at(current_state).second;
-  current_state = next_state;
-}
-
 string Graph::output_label(Graph::State st) {
   if (labels.count(st)) {
     return labels.at(st);
@@ -52,5 +44,3 @@ string Graph::output_label(Graph::State st) {
     return "";
   }
 }
-
-Graph::State Graph::get_current_state() { return current_state; }

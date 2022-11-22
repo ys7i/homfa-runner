@@ -19,18 +19,14 @@ public:
   using Transitions = unordered_map<State, pair<State, State>>;
   using Labels = unordered_map<State, string>;
 
-private:
+protected:
   Transitions transitions;
   Labels labels;
   State initial_state;
   unordered_set<State> states;
-  State current_state;
 
 public:
   Graph(vector<string> lines);
-  // void process_offline(vector<Sigma> input);
-  void move_next(Sigma sigma);
-  State get_current_state();
   string output_label(State st);
 
 private:

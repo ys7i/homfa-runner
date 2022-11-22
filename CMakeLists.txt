@@ -10,7 +10,7 @@ conan_basic_setup()
 
 add_subdirectory(src)
 add_subdirectory(test)
-add_subdirectory(bin/tfhe/src)
+add_subdirectory(bin/TFHEpp)
 
 # include(${CMAKE_SOURCE_DIR}/modules/conanbuildinfo.cmake)
 

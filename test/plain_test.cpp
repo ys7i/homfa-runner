@@ -1,4 +1,4 @@
-#include "graph.hpp"
+#include "forward-graph.hpp"
 #include "utils.hpp"
 #include <gtest/gtest.h>
 #include <string>
@@ -20,7 +20,7 @@ struct test_case cases[] = {
 
 TEST(plain, table) {
   for (test_case &elm : cases) {
-    auto graph = new Graph(elm.config);
+    auto graph = new ForwardGraph(elm.config);
     auto input = split_to_zero_one(elm.input);
     EXPECT_EQ(graph->get_current_state(), *(elm.traces.begin()));
     for (int index = 0; index < input.size(); ++index) {

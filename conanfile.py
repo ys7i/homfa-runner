@@ -20,4 +20,4 @@ class HomfaRunnerConan(ConanFile):
   def source(self):
     if (os.path.exists("TFHEpp")):
       return
-    self.run("git clone https://github.com/virtualsecureplatform/TFHEpp.git --recursive && cd TFHEpp && git checkout 56b7db0f8e05e7db283a8580d63d5fc20a0e7cab")
+    self.run("git clone https://github.com/virtualsecureplatform/TFHEpp.git --recursive && cd TFHEpp && git checkout 36020be")

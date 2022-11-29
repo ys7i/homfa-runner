@@ -2,6 +2,7 @@
 #include "spdlog/spdlog.h"
 #include "tfhe-util.hpp"
 #include <cmath>
+#include <execution>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,26 +18,69 @@ ReverseGraph::ReverseGraph(vector<string> lines, const SecretKey &skey)
       label_set.insert(labels.at(st));
     }
   }
+  std::vector<TRLWELvl1> weight(states.size());
   this->bit_num = int(ceil(log2(label_set.size() + 1)));
   vector<string> label_vector(label_set.begin(), label_set.end());
+  this->label_vector = label_vector;
 
-  unordered_map<string, vector<TRLWELvl1>> trlwe_map;
+  unordered_map<string, TRLWELvl1> trlwe_map;
 
   for (int i = 0; i < label_vector.size() + 1; i++) {
-    vector<TRLWELvl1> trlwe_vector;
     if (i == 0) {
-      for (int j = 0; j < this->bit_num; j++) {
-        trlwe_vector.push_back(trlwelvl1_zero);
-      }
-      trlwe_map[""] = trlwe_vector;
+      trlwe_map[""] = trivial_TRLWELvl1(0);
       continue;
     }
-    for (int j = 0; j < this->bit_num; j++) {
-      TRLWELvl1 value =
-          (i % int(pow(2, j + 1))) == 0 ? trlwelvl1_zero : trlwelvl1_one;
-      trlwe_vector.insert(trlwe_vector.begin() + j, value);
-    }
-    trlwe_map[label_vector.at(i - 1)] = trlwe_vector;
+    trlwe_map[label_vector.at(i - 1)] = trivial_TRLWELvl1(i);
   }
-  spdlog::info(to_string(trlwe_map.size()));
+
+  for (auto it = states.begin(); it != states.end(); ++it) {
+    if (labels.count(*it) == 0) {
+      weight.at(*it) = trlwe_map[""];
+    } else {
+      auto label = labels.at(*it);
+      weight.at(*it) = trlwe_map[label];
+    }
+  }
+  this->weight = weight;
 }
+
+void ReverseGraph::run(const TRGSWLvl1FFT &input) {
+  std::vector<TRLWELvl1> next_weight(states.size());
+  for_each(states.begin(), states.end(), [&](ReverseGraph::State q) {
+    ReverseGraph::State q0 = this->get_next_state(q, Sigma::ZERO),
+                        q1 = this->get_next_state(q, Sigma::ONE);
+    const TRLWELvl1 &w0 = weight.at(q0), &w1 = weight.at(q1);
+    TFHEpp::CMUXFFT<Lvl1>(next_weight.at(q), input, w1, w0);
+  });
+  swap(weight, next_weight);
+}
+
+ReverseGraph::State ReverseGraph::get_next_state(ReverseGraph::State q,
+                                                 Sigma sigma) {
+  return sigma == Sigma::ZERO ? transitions.at(q).first
+                              : transitions.at(q).second;
+}
+
+vector<TLWELvl1> ReverseGraph::output_result() {
+  vector<TLWELvl1> rets(this->bit_num);
+  for (int i = 0; i < this->bit_num; i++) {
+    TFHEpp::SampleExtractIndex<Lvl1>(rets[i], weight.at(this->initial_state),
+                                     i);
+  }
+  return rets;
+}
+
+// i番目がi桁目
+string ReverseGraph::output_label(vector<TLWELvl1> results,
+                                  const SecretKey &skey) {
+  int num = 0;
+  for (int i = 0; i < results.size(); i++) {
+    if (decrypt_TLWELvl1_to_bool(results.at(i), skey)) {
+      num += int(pow(2, i));
+    }
+  }
+  if (num == 0) {
+    return "";
+  }
+  return this->label_vector.at(num - 1);
+};

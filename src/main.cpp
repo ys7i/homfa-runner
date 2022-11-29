@@ -42,16 +42,11 @@ int process_offline(vector<string> graph_config, vector<Sigma> sigma_vector) {
   auto graph = new ReverseGraph(graph_config, skey);
   for (auto it = sigma_vector.rbegin(); it != sigma_vector.rend(); ++it) {
     auto enc_input = encrypt_to_TRGSWLvl1FFT(*it, skey);
-    // graph->move_next(*it);
-    // ForwardGraph::State current_state = graph->get_current_state();
-    // string label = graph->output_label(current_state);
-    // spdlog::info("state: " + to_string(current_state));
-    // if (label != "") {
-    //   spdlog::info("label: " + label);
-    // } else {
-    //   spdlog::info("label: nothing continue");
-    // }
+    graph->run(enc_input);
   }
+  auto results = graph->output_result();
+  auto value = graph->output_label(results, skey);
+  spdlog::info("result: " + value);
   return 0;
 }
 

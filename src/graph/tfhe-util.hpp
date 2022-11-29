@@ -8,6 +8,7 @@
 using SecretKey = TFHEpp::SecretKey;
 using Lvl1 = TFHEpp::lvl1param;
 using TRGSWLvl1FFT = TFHEpp::TRGSWFFT<Lvl1>;
+using TLWELvl1 = TFHEpp::TLWE<Lvl1>;
 using GateKey = TFHEpp::GateKey;
 using CircuitKey = TFHEpp::CircuitKey<TFHEpp::lvl02param, TFHEpp::lvl21param>;
 using TRLWELvl1 = TFHEpp::TRLWE<Lvl1>;
@@ -40,8 +41,28 @@ TRLWELvl1 trivial_TRLWELvl1(int num) {
   if (num == 0) {
     return ret;
   }
-  ret[1][0] = (1u << 31); // 1/2
+  int remainder = 0;
+  int quotient = num;
+  for (int i = 0; i < 10; i++) {
+    if (quotient <= 0) {
+      break;
+    }
+    remainder = quotient % 2;
+    quotient = quotient / 2;
+
+    if (remainder != 0) {
+      ret[1][i] = (1u << 31); // 1/2
+    }
+  }
   return ret;
+}
+
+bool decrypt_TLWELvl1_to_bool(const TLWELvl1 &c, const SecretKey &skey) {
+  // Use {0, 1/2} as message space
+  uint32_t phase = c[Lvl1::n];
+  for (size_t i = 0; i < Lvl1::n; i++)
+    phase -= c[i] * skey.key.lvl1[i];
+  return (phase + (1u << 30 /* 1/4 */)) > (1u << 31 /* 1/2 */);
 }
 
 #endif

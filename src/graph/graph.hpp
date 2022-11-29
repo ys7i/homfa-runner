@@ -3,7 +3,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 using namespace std;
@@ -23,7 +22,7 @@ protected:
   Transitions transitions;
   Labels labels;
   State initial_state;
-  unordered_set<State> states;
+  vector<State> states;
 
 public:
   Graph(vector<string> lines);

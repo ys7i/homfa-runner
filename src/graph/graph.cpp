@@ -26,7 +26,7 @@ void Graph::load_config(vector<string> lines) {
     if (match[1].str() == ">") {
       initial_state = state;
     }
-    states.insert(state);
+    states.push_back(state);
     if (match[3].str() != "") {
       labels[state] = match[3].str();
     }

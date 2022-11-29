@@ -36,5 +36,4 @@ std::vector<Sigma> split_to_zero_one(string input) {
   }
   return sigma_vector;
 }
-
 #endif

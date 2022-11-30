@@ -1,6 +1,3 @@
-#ifndef YSHR_FILE_READER
-#define YSHR_FILE_READER
-
 #include "graph.hpp"
 #include "spdlog/spdlog.h"
 #include <fstream>
@@ -36,5 +33,3 @@ std::vector<Sigma> split_to_zero_one(string input) {
   }
   return sigma_vector;
 }
-
-#endif

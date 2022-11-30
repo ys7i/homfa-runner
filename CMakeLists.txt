@@ -3,7 +3,7 @@ project(homfa-runner)
 
 SET(DENABLE_SPQLIOS_AVX, "off")
 SET(DENABLE_SPQLIOS_FMA, "off")
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # add_definitions("-std=c++14")
 include(${CMAKE_BINARY_DIR}/bin/conanbuildinfo.cmake)

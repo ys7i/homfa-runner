@@ -15,5 +15,5 @@ $ conan build . --build-folder bin
 
 ## Run offline Algorithms
 ```sh
-$ bin/main --input-file ./input-files/input1.txt --graph-file ./graph-config/three-dfa/config1.spec 
+$ bin/bin/main --type=offline --input-file ./input-files/input1.txt --graph-file ./graph-config/three-dfa/config1.spec 
 ```

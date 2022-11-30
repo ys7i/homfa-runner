@@ -7,14 +7,12 @@ class HomfaRunnerConan(ConanFile):
   generators = "cmake"
 
   def imports(self):
-    self.copy("*.dll", dst="bin", src="bin") # From bin to bin
-    self.copy("*.dylib*", dst="bin", src="lib") # From lib to bin
     self.source()
 
   def build(self):
     cmake = CMake(self)
     cmake.configure()
-    self.run('cmake --build ..')
+    cmake.build()
 
 
   def source(self):

@@ -6,18 +6,18 @@ SET(DENABLE_SPQLIOS_FMA, "off")
 SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # add_definitions("-std=c++14")
-include(${CMAKE_BINARY_DIR}/bin/conanbuildinfo.cmake)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
-
+message(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 find_package(OpenMP REQUIRED)
 if(OpenMP_FOUND)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
-add_subdirectory(src)
-add_subdirectory(test)
-add_subdirectory(bin/TFHEpp)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src)
+add_subdirectory(${CMAKE_SOURCE_DIR}/test)
+add_subdirectory(${CMAKE_BINARY_DIR}/TFHEpp)
 
 # include(${CMAKE_SOURCE_DIR}/modules/conanbuildinfo.cmake)
 

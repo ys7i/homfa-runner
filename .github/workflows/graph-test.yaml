@@ -11,10 +11,13 @@ env:
 
 jobs:
   run-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: install gcc11
+      uses: sudo apt install build-essential && sudo apt install -y gcc-11
 
     - name: Get Conan
       uses: turtlebrowser/get-conan@v1.1

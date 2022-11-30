@@ -32,7 +32,7 @@ jobs:
       run: cmake -B ${{github.workspace}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
-      run: conan build ${{github.workspace}} --build-folder ${{github.workspace}}/bin
+      run: cd ${{github.workspace}}/bin && conan build ${{github.workspace}} --build-folder ${{github.workspace}}/bin
 
     - name: Run
       run: ${{github.workspace}}/bin/graph_test

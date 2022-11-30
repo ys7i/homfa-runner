@@ -16,11 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: install gcc11
-      uses: sudo apt install build-essential && sudo apt install -y gcc-11
-
     - name: Get Conan
       uses: turtlebrowser/get-conan@v1.1
+
+    - name: install gcc11
+      run: sudo apt install build-essential && sudo apt install -y gcc-11
 
     - name: Create default profile
       run: conan profile new default --detect
